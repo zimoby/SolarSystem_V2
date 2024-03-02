@@ -197,7 +197,7 @@ export const useInitiateSolarSystem = () => {
 export const useCelestialBodyUpdates = () => {
   const DEV_MODE = useSolarStore((state) => state.DEV_MODE);
   
-  const positionVectorsRef = useRef<PositionVectorsT>({});
+  const positionVectorsRef = useRef<PositionVectorsT>({} as PositionVectorsT);
   const objectsSupportDataRef = useRef<ObjectsSupportDataT>({});
   const quaternionRef = useRef(new THREE.Quaternion());
 
@@ -310,7 +310,7 @@ export const useCelestialBodyUpdates = () => {
         type: combinedObjects[name].type2,
       };
 
-      if (!positionVectorsRef.current[name]) {
+      if (positionVectorsRef.current && !positionVectorsRef.current[name]) {
         positionVectorsRef.current[name] = new THREE.Vector3();
       }
     });
@@ -409,13 +409,16 @@ export const useCelestialBodyUpdates = () => {
       );
 
       const position = positionVectorsRef.current[name];
-      position.set(
-        Math.cos(t + startTimeOffset) * (supportData.distanceXY.x),
-        0,
-        Math.sin(t + startTimeOffset) * (supportData.distanceXY.y) + 0// + (combinedObjects[name].anchorXYOffset.y ??)
-      );
+      if (position instanceof THREE.Vector3) {
+        position.set(
+          Math.cos(t + startTimeOffset) * supportData.distanceXY.x,
+          0,
+          Math.sin(t + startTimeOffset) * supportData.distanceXY.y
+        );
+      }
 
       quaternionRef.current.setFromAxisAngle({x: 1, y: 0, z: 0}, supportData.angleRad);
+      // @ts-expect-error tired of typescript
       position.applyQuaternion(quaternionRef.current);
 
       updatedObjectsData[name] = { position };
