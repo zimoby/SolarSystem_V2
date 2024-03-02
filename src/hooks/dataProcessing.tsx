@@ -401,6 +401,8 @@ export const useCelestialBodyUpdates = () => {
 
       const supportData = objectsSupportDataRef.current[name];
       const moonsCompenstation = supportData.type === "moons" ? moonsRotationSpeed : 1;
+      const position = new THREE.Vector3();
+
       const t = calculateTime(
         time,
         (combinedObjects[name].siderealOrbitPeriodDays || 365) * moonsCompenstation,
@@ -408,7 +410,6 @@ export const useCelestialBodyUpdates = () => {
         timeOffset
       );
 
-      const position = positionVectorsRef.current[name];
       position.set(
         Math.cos(t + startTimeOffset) * (supportData.distanceXY.x),
         0,

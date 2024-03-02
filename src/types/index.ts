@@ -1,5 +1,5 @@
 import { Euler, Vector3 } from "@react-three/fiber";
-import { Color } from "three";
+import { Color, Texture } from "three";
 
 export enum Controls {
   forward = "forward",
@@ -207,13 +207,13 @@ export interface ObjectsSupportDataT {
 }
 
 export interface PositionVectorsT {
-  [key: string]: THREE.Vector3;
+  [key: string]: Vector3;
 }
 
 export type ObjectEllipseProps = {
   params: ObjectsAdditionalDataT;
   name: string;
-  color?: THREE.Color | string;
+  color?: Color | string;
   opacity?: number;
   type?: string;
   extraRotation?: number;
@@ -222,7 +222,7 @@ export type ObjectEllipseProps = {
 export type PlanetComponentProps = {
   planetName: string;
   params: SolarObjectParamsBasicWithMoonsT;
-  planetTexture?: THREE.Texture | null;
+  planetTexture?: Texture | null;
   type: string;
   rotationCorrection?: number;
 };

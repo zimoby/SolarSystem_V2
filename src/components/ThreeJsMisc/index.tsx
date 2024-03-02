@@ -43,7 +43,7 @@ export const ControlComponent = () => {
   const cameraDistance = 100;
 
   const { camera } = useThree();
-  const currentPositionRef = useRef<THREE.Vector3 | undefined>();
+  const currentPositionRef = useRef<Vector3 | undefined>();
   const orbitControlsRef = useRef(null);
   const currentObjectName = useSolarStore((state) => state.activeObjectName);
 

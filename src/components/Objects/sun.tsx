@@ -6,7 +6,7 @@ import { InfoAboutObject } from "../HUD/hud";
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { updateActiveName } from "../../hooks/storeProcessing";
-import { AdditiveBlending, DoubleSide, Group } from "three";
+import { AdditiveBlending, DoubleSide, Group, Object3D } from "three";
 
 export const SunComponent = () => {
   const DEV_MODE = useSolarStore((state) => state.DEV_MODE);
@@ -26,7 +26,7 @@ export const SunComponent = () => {
     return calculateRelativeScale(sunSize, objectsRelativeScale, "sun")
   }, [sunInitialized, sunSize, objectsRelativeScale]);
 
-  const sunRef = useRef<THREE.Object3D>(null);
+  const sunRef = useRef<Object3D>(null);
   const sunOreolRef = useRef<Group>(null);
 
   const { camera } = useThree();
