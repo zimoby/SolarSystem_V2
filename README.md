@@ -1,8 +1,13 @@
 # Solar System
 
 Project for [ThreeJS Journey](https://threejs-journey.com/) course challenge by Bruno Simon.
+Planets parameters depends on NASA fact sheet and some fake data.
 
-Live: [Solar System](https://solar-system-v1-eosin.vercel.app)
+Live: [Solar System](https://solar-system-v2.vercel.app/)
+
+This version is a futher development of the original project:
+[Live: Solar System V1](https://solar-system-v1-eosin.vercel.app)
+[Repo: Solar System V1](https://github.com/zimoby/SolarSystem_V1)
 
 ## Assets
 
