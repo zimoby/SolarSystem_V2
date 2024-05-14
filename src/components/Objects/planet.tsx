@@ -22,8 +22,7 @@ import { PlanetComponentProps } from "../../types";
 
 import moonTexture from "../../assets/2k_moon.jpg";
 
-// @ts-expect-error tired of typescript
-import { resolveLygia } from "resolve-lygia"
+// import { resolveLygia } from "resolve-lygia"
 
 interface AtmosphereMaterialProps {
   uPlanetRadius: number;
@@ -50,7 +49,6 @@ const AtmosphereMaterial = shaderMaterial(
     uAtmosphereRadius: 0,
     uColor: new THREE.Color(0x93C5FD),
   },
-  // Vertex Shader
   `
     varying vec3 vNormal;
     void main() {
@@ -77,58 +75,42 @@ const AtmosphereMaterial = shaderMaterial(
   `
 );
 
-// void main() {
-//   float intensity = pow(1.04 - dot(vNormal, vec3(0, 0, 1)), 2.0);
-
-//   // Adjust the calculation of alphaFactor for a smoother transition
-//   // Start the transition closer to the planet surface and end it farther into the atmosphere
-//   float startFade = uPlanetRadius + (uAtmosphereRadius - uPlanetRadius) * 0.3; // Adjust this value to control the start of the fade
-//   float endFade = uAtmosphereRadius;
-//   float fadeRange = endFade - startFade;
-//   float alphaFactor = 1.0 - smoothstep(0.0, fadeRange, intensity - startFade);
-
-//   if(alphaFactor < 0.05) {  // Adjust this threshold as needed
-//       discard; // Skip rendering to make it fully transparent
-//   } else {
-//       gl_FragColor = vec4(uColor, alphaFactor); // Apply the smooth alpha factor
-//   }
-// }
 
 extend({ AtmosphereMaterial });
 
-const ColorShiftMaterial = shaderMaterial(
-  { uTime: 0.0, uResolution: new THREE.Vector2(600, 600), side: THREE.DoubleSide},
-  // vertex shader
-  resolveLygia(`
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `),
-  // fragment shader
-  resolveLygia(`
-    uniform float time;
-    varying vec2 vUv;
-    uniform vec2 uResolution;
-    uniform float uTime;
+// const ColorShiftMaterial = shaderMaterial(
+//   { uTime: 0.0, uResolution: new THREE.Vector2(600, 600), side: THREE.DoubleSide},
+//   // vertex shader
+//   resolveLygia(`
+//     varying vec2 vUv;
+//     void main() {
+//       vUv = uv;
+//       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+//     }
+//   `),
+//   // fragment shader
+//   resolveLygia(`
+//     uniform float time;
+//     varying vec2 vUv;
+//     uniform vec2 uResolution;
+//     uniform float uTime;
 
-    #include "lygia/generative/fbm.glsl"
+//     #include "lygia/generative/fbm.glsl"
 
-    void main() {
-      vec4 color = vec4(vec3(0.0), 1.0);
-      vec2 pixel = 1.0/uResolution.xy;
-      vec2 st = gl_FragCoord.xy * pixel;
-      float d3 = fbm(vec3(st * 5.0, uTime)) * 0.5 + 0.5;
+//     void main() {
+//       vec4 color = vec4(vec3(0.0), 1.0);
+//       vec2 pixel = 1.0/uResolution.xy;
+//       vec2 st = gl_FragCoord.xy * pixel;
+//       float d3 = fbm(vec3(st * 5.0, uTime)) * 0.5 + 0.5;
 
-      color += vec4(vec3(d3), st.x);
+//       color += vec4(vec3(d3), st.x);
 
-      gl_FragColor.rgba = color;
-    }
-  `)
-);
+//       gl_FragColor.rgba = color;
+//     }
+//   `)
+// );
 
-extend({ ColorShiftMaterial });
+// extend({ ColorShiftMaterial });
 
 // https://github.com/dataarts/webgl-globe/blob/8d746a3dbf95e57ec3c6c2c6effe920c95135253/globe/globe.js
 // const Shaders = {
@@ -418,16 +400,18 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
 
           </Sphere>
           {/* <Sphere
-            args={[planetSize * 1.01, 64, 32]} // Adjust the multiplier for the desired atmosphere size
+            args={[planetSize * 1.01, 64, 32]} 
             position={[0, 0, 0]}
           >
             <atmosphereMaterial
               uPlanetRadius={planetSize}
               uAtmosphereRadius={planetSize * 1.01} 
               uColor={new THREE.Color(atmosphereColor[planetName])}
-              transparent={true}
-              depthWrite={false}
-              // blending={THREE.AdditiveBlending}
+              // transparent={true}
+              
+              
+              // depthWrite={false}
+              blending={THREE.AdditiveBlending}
             />
           </Sphere> */}
            {/* <Sphere
